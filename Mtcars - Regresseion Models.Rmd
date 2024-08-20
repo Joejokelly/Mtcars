@@ -1,0 +1,28 @@
+---
+title: "Mtcars Project - Automatic or Manual Transmission"
+author: "Joe Okelly"
+date: "20 Aug 2024"
+output:
+  html_document:
+    keep_md: yes
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Executive Summary
+
+In this study we look at the mtcars dataset, which comprises of 32 different automobile design.
+we explore the relationship between miles per gallon. We specially focus automatic and manual transmission, and whether MPG (miles per gallon) is better for Manual Transmission cars.
+
+
+We consider the following point for our analysis :
+
+- Initial data processing
+- Exploratory data Analysis
+- Model Selection
+- Technical Analysis 
+- Conclusion
+
