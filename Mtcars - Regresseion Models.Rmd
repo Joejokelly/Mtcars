@@ -20,9 +20,41 @@ we explore the relationship between miles per gallon. We specially focus automat
 
 We consider the following point for our analysis :
 
-- Initial data processing
+- Initial Data processing
 - Exploratory data Analysis
 - Model Selection
 - Technical Analysis 
+- Final Analysis
 - Conclusion
+
+
+## Initial Data Processing
+
+We use factor to change all the continuous variable to descrete, ie the 'am' variable which denotes whether a car is automatic or manual. 
+
+````{r}
+data("mtcars")
+data <- mtcars
+data$mpg <- as.factor(data$mpg)
+data$am <- as.factor(data$am)
+levels(data$am) <- c("A", "M") 
+
+data$cyl <- as.factor(data$cyl)
+data$gear <- as.factor(data$gear)
+data$vs <- as.factor(data$vs)
+levels(data$vs) <- c("V", "S")
+
+````
+
+## Exploratiory Data Analysis
+
+First we take a look at the data set, we display the first 5 rows of data
+
+````{r}
+str(data)
+head(data, n=5)
+
+````
+
+Will will now create a boxplot to visaualize the relationship between mpg and am.
 
