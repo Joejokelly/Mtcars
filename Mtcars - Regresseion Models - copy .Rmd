@@ -1,0 +1,143 @@
+---
+title: "Mtcars Project - Automatic or Manual Transmission"
+author: "Joe Okelly"
+date: "20 Aug 2024"
+output:
+  html_document:
+    keep_md: yes
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Executive Summary
+
+In this study we look at the mtcars dataset, which comprises of 32 different automobile design.
+we explore the relationship between miles per gallon. We specially focus automatic and manual transmission, and whether MPG (miles per gallon) is better for Manual Transmission cars.
+
+We consider the following point for our analysis :
+
+- Initial Data processing
+- Exploratory Data Analysis
+- Model Selection
+- Model Analysis 
+- Conclusion
+
+
+
+## Initial Data Preprocessing
+
+We use factor to change all the continuous variable to descrete, ie the 'am' variable which denotes whether a car is automatic or manual. 
+
+
+```{r}
+data("mtcars")
+data <- mtcars
+data$am <- as.factor(data$am)
+levels(data$am) <- c("A", "M") 
+
+data$cyl <- as.factor(data$cyl)
+data$gear <- as.factor(data$gear)
+data$vs <- as.factor(data$vs)
+levels(data$vs) <- c("V", "S")
+
+```
+
+## Exploratory Data Analysis
+
+First we take a look at the data set, we display the first 5 rows of data
+
+```{r}
+str(data)
+head(data, n = 5)
+
+```
+
+Will will now create a boxplot to visaualize the relationship between mpg and am.
+
+```{r}
+library(ggplot2)
+g <- ggplot(data, aes(am, mpg))
+g <- g + geom_boxplot(aes(fill = am))
+print(g)
+
+```
+The plot show that cars with Manual transmission have a higher mpg as compared to the cars with Automatic transmission. we might be overlooking some other parameters which has a high correlation with the mpg. 
+Lets do more analysis with all these variables whose correlation with mpg is higher.
+
+
+
+```{r}
+correlation <- cor(mtcars$mpg, mtcars)
+correlation <- correlation[,order(-abs(correlation[1, ]))]
+correlation
+
+variables <- names(correlation)[1: which(names(correlation) == "am")]
+variables
+    
+```
+
+From the above data we can summarize, the variables most negatively correlated with mpg are wt, cyl, disp, and hp, while those most positively correlated are drat, vs, and am. This suggests that cars that are heavier, have more cylinders, higher displacement, and horsepower tend to be less fuel-efficient, while those with higher rear axle ratios, certain engine shapes, and manual transmissions tend to be more fuel-efficient.
+
+Thus, while am does have a meaningful relationship with mpg, the weight of the car, the number of cylinders, displacement, and horsepower have stronger (and negative) correlations with mpg. If the goal is to find the variable most strongly correlated with mpg, the strongest is wt (weight), with a correlation of -0.8677.
+
+## Model Selection
+
+From the above plot we know that mpg has a stronger correlation with other variables too, not just am. Now we cannot base our analysis solely on am, but we need to do more analysis with other variables too. below we start the process of fitting data with other models.
+
+```{r}
+first <- lm(mpg ~ am, data)
+summary(first)
+
+```
+
+To summarize in the above case the p-value is quite low, but there is issue with R-squared value.
+So our next step is fit all the vaiable with mpg.
+
+```{r}
+last <- lm(mpg ~ ., data)
+summary(last)
+
+```
+
+In the above model, R-squared value has improved, but the high p-value indicates that, individually, none of the variables are statistically significant predictors of mpg at the 5% level. To improve your model, consider addressing multicollinearity, simplifying the model, or using stepwise regression to identify the most critical predictors.
+We use 'step' method to iterate throught the variables and obtain the best model.
+
+```{r}
+best <- step(last, direction = "both", trace = FALSE)
+summary(best)
+
+```
+
+R-squared value is good, and the p-value is low which shows that the model as a whole is statistically significant. Hence the model is a best fit.
+
+## Model Analysiss
+
+This model, with wt, qsec, and am as predictors, provides a strong and statistically significant explanation of mpg. The results suggest that weight is the most crucial factor, followed by quarter mile time and transmission type.
+
+Next we plot the residual plot to understand more about the model 'best' fit.
+
+```{r}
+layout(matrix(c(1,2,3,4),2,2))
+plot(best)
+
+```
+
+## Conclusion
+
+Question 1)  whether automatic or manual is better for mpg
+
+The above question can be answered uisng all models (when holding all other parameters constant)
+manual transmission increases the mpg.
+
+Question 2) Quantify the MPG difference between automatic and manual transmissions"  
+
+This question is a bit difficult to anwwer, based on the 'best' fit model, we conclude that cars with manual transmission have 2.93 more mpg than that of automatic with p < 0.05 and R-squared 0.85.
+
+Residuals vs Fitted plot however shows something is missing from the model which might be a problem due to a small sample size which is 32 observations. Even though the conclusion that manual has better performance with respect to mpg, whether the model will git all future observations will be doubtful.
+
+This regression model effectively explains the factors influencing fuel efficiency (mpg) in vehicles, with weight, quarter mile time, and transmission type emerging as significant predictors. The findings underscore the importance of vehicle design considerations, particularly in managing weight and optimizing performance to achieve better fuel economy.
+
+
