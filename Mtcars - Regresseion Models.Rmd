@@ -22,8 +22,7 @@ We consider the following point for our analysis :
 - Initial Data processing
 - Exploratory Data Analysis
 - Model Selection
-- Technical Analysis 
-- Final Analysis
+- Model Analysis 
 - Conclusion
 
 
@@ -94,7 +93,8 @@ summary(first)
 
 ```
 
-In this case p-value is quite low but the R-squared value is the real problem. Hence, let's now go to the other extreme end and fit all variables with mpg.
+To summarize in the above case the p-value is quite low, but there is issue with R-squared value.
+So our next step is fit all the vaiable with mpg.
 
 ```{r}
 last <- lm(mpg ~ ., data)
@@ -102,7 +102,8 @@ summary(last)
 
 ```
 
-Here R-squared values have definitely improved but the p-value becomes the problem now which is caused most probably due to overfitting. So, lets use 'step' method to iterate over the variables and obtain the best model.
+In the above model, R-squared value has improved, but the high p-value indicates that, individually, none of the variables are statistically significant predictors of mpg at the 5% level. To improve your model, consider addressing multicollinearity, simplifying the model, or using stepwise regression to identify the most critical predictors.
+We use 'step' method to iterate throught the variables and obtain the best model.
 
 ```{r}
 best <- step(last, direction = "both", trace = FALSE)
@@ -110,11 +111,13 @@ summary(best)
 
 ```
 
-Here the R-squared value is pretty good and also p-values are quite significant. Hence undoubtedly this is the best fit for us.
+R-squared value is good, and the p-value is low which shows that the model as a whole is statistically significant. Hence the model is a best fit.
 
-## Model Examination
+## Model Analysiss
 
-The best model we obtained i.e., 'best' depicts the dependance of mpg over wt and qsec other than am. Let's plot and study some residual plots to understand more about the 'best' fit. 
+This model, with wt, qsec, and am as predictors, provides a strong and statistically significant explanation of mpg. The results suggest that weight is the most crucial factor, followed by quarter mile time and transmission type.
+
+Next we plot the residual plot to understand more about the model 'best' fit.
 
 ```{r}
 layout(matrix(c(1,2,3,4),2,2))
