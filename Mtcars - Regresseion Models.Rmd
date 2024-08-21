@@ -127,12 +127,17 @@ plot(best)
 
 ## Conclusion
 
-The first question whether automatic or manual is better for mpg can be answered using all the models created as holding all the other parameters constant, manual transmission increases the mpg.
+Question 1)  whether automatic or manual is better for mpg
 
-However the second question is a little difficult to answer.
-Based on 'best' fit model, we conclude that cars with manual transmission have 2.93 more mpg than that of automatic with p < 0.05 and R-squared 0.85.
+The above question can be answered uisng all models (when holding all other parameters constant)
+manual transmission increases the mpg.
+
+Question 2) Quantify the MPG difference between automatic and manual transmissions"  
+
+This question is a bit difficult to anwwer, based on the 'best' fit model, we conclude that cars with manual transmission have 2.93 more mpg than that of automatic with p < 0.05 and R-squared 0.85.
 
 Residuals vs Fitted plot however shows something is missing from the model which might be a problem due to a small sample size which is 32 observations. Even though the conclusion that manual has better performance with respect to mpg, whether the model will git all future observations will be doubtful.
 
+This regression model effectively explains the factors influencing fuel efficiency (mpg) in vehicles, with weight, quarter mile time, and transmission type emerging as significant predictors. The findings underscore the importance of vehicle design considerations, particularly in managing weight and optimizing performance to achieve better fuel economy.
 
 
