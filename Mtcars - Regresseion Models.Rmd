@@ -80,9 +80,13 @@ variables
     
 ```
 
+From the above data we can summarize, the variables most negatively correlated with mpg are wt, cyl, disp, and hp, while those most positively correlated are drat, vs, and am. This suggests that cars that are heavier, have more cylinders, higher displacement, and horsepower tend to be less fuel-efficient, while those with higher rear axle ratios, certain engine shapes, and manual transmissions tend to be more fuel-efficient.
+
+Thus, while am does have a meaningful relationship with mpg, the weight of the car, the number of cylinders, displacement, and horsepower have stronger (and negative) correlations with mpg. If the goal is to find the variable most strongly correlated with mpg, the strongest is wt (weight), with a correlation of -0.8677.
+
 ## Model Selection
 
-Now that we know mpg variable has stronger correlations with other variables too apart from just am, we can't base our model solely on this one variable as it will not be the most accurate one. Let's start this process by fitting mpg with just am.
+From the above plot we know that mpg has a stronger correlation with other variables too, not just am. Now we cannot base our analysis solely on am, but we need to do more analysis with other variables too. below we start the process of fitting data with other models.
 
 ```{r}
 first <- lm(mpg ~ am, data)
